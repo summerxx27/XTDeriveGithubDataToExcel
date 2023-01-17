@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Local File",
+            "type": "Ruby",
+            "request": "launch",
+            "program": "${workspaceRoot}/main.rb",
+            "env": {
+                "PATH": "/Users/summerxx/.rvm/gems/ruby-3.0.0/bin:/Users/summerxx/.rvm/gems/ruby-3.0.0@global/bin:/Users/summerxx/.rvm/rubies/ruby-3.0.0/bin:/Users/summerxx/MyFlutter/flutter/bin/cache/dart-sdk/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/summerxx/.rvm/bin:/Users/summerxx/Desktop/MyFlutter/flutter/bin",
+                "GEM_HOME": "/Users/summerxx/.rvm/gems/ruby-3.0.0",
+                "GEM_PATH": "/Users/summerxx/.rvm/gems/ruby-3.0.0:/Users/summerxx/.rvm/gems/ruby-3.0.0@global",
+                "RUBY_VERSION": "ruby-3.0.0"
+            }
+        }
+    ]
+}
