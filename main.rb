@@ -6,19 +6,19 @@ require 'cli/ui'            # 请输入 xxx的功能
 require "spreadsheet/excel" # excel的导出使用
 
 #网络请求类
-class Network    
+class Network
     def Network.request (url, &block)
         uri = URI.parse(url)
         https = Net::HTTP.new(uri.host,uri.port)
         https.use_ssl = true
         req = Net::HTTP::Get.new(uri.path, initheader = {'Content-Type' =>'application/json'})
-        req['Authorization'] = 'token token_Id'
+        req['Authorization'] = 'token tokenId'
         res = https.request(req)
         if res.code == "200"
             data = JSON.parse(res.body)
             # 回调data数据
             yield data
-        else 
+        else
             puts "请求失败 : Response code = #{res.code}, message = #{res.message}"
         end
     end
@@ -57,9 +57,9 @@ sheet1.row(0)[15] = "license"
 sheet1.row(0)[16] = "language"
 
 # 参照: https://github.com/Shopify/cli-ui
-input = CLI::UI::Prompt.ask('请输入您要查询的用户名: 例如 TRaaSStack:')
-url = "https://api.github.com/users/#{input}/repos"
-puts "您确定要查询的是这个用户吗: #{input}"
+username = CLI::UI::Prompt.ask('请输入您要查询的用户名例如 ruby:')
+page = CLI::UI::Prompt.ask('由于每页最多查询 100 条数据, 请输入您要查询页码:')
+puts "您确定要查询的是这个用户吗: #{username}, 并且页码为: #{page}"
 sure = CLI::UI::Prompt.ask('确定请选择 Yes, 否定请选择 No') do |handler|
     handler.option('yes')  { |selection| selection }
     handler.option('no')     { |selection| selection }
@@ -69,9 +69,12 @@ if sure == "no"
     return
 end
 
+# url
+url = "https://api.github.com/users/#{username}/repos?page=#{page}&per_page=100"
+
 Network.request(url) { | data |
 
-    if data 
+    if data
         #创建一个 names 数组
         names = Array.new
         #遍历得到每个 repo 的对象
@@ -108,7 +111,7 @@ Network.request(url) { | data |
                     sheet1.row(i + 1)[12] = data["has_pages"]
                     sheet1.row(i + 1)[13] = data["archived"]
                     sheet1.row(i + 1)[14] = data["disabled"]
-                    if data["license"] 
+                    if data["license"]
                         license = data["license"]
                         name = license["name"]
                         sheet1.row(i + 1)[15] = name
@@ -127,4 +130,4 @@ Network.request(url) { | data |
 }
 
 
-    
+
