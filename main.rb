@@ -5,22 +5,50 @@ require 'json'
 require 'cli/ui'            # 请输入 xxx的功能
 require "spreadsheet/excel" # excel的导出使用
 
+# 钉钉机器人
+class DingDing
+    # 发送 markdown 消息
+    def DingDing.send_markdown(title, markdown) 
+        token = ''
+        params = %Q+{
+            'msgtype': 'markdown',
+            'markdown': {
+            'title': '#{title}',
+            'text': '#{markdown}'
+            }
+        }+
+
+        `curl --silent \
+            -H \"Content-Type: application/json\" \
+            -d \"#{params}\" \
+            https://oapi.dingtalk.com/robot/send?access_token=#{token}`
+    end
+end
+
 #网络请求类
-class Network
+class Network    
     def Network.request (url, &block)
         uri = URI.parse(url)
         https = Net::HTTP.new(uri.host,uri.port)
         https.use_ssl = true
         req = Net::HTTP::Get.new(uri.path, initheader = {'Content-Type' =>'application/json'})
-        req['Authorization'] = 'token tokenId'
+        req['Authorization'] = 'token '
         res = https.request(req)
         if res.code == "200"
             data = JSON.parse(res.body)
             # 回调data数据
             yield data
-        else
+        else 
             puts "请求失败 : Response code = #{res.code}, message = #{res.message}"
         end
+    end
+
+    def Network.post (url) 
+        uri = URI.parse(url)
+        https = Net::HTTP.new(uri.host,uri.port)
+        https.use_ssl = true
+        req = Net::HTTP::Get.new(uri.path, initheader = {'Content-Type' =>'application/json'})
+        res = https.request(req)
     end
 end
 
@@ -74,7 +102,7 @@ url = "https://api.github.com/users/#{username}/repos?page=#{page}&per_page=100"
 
 Network.request(url) { | data |
 
-    if data
+    if data 
         #创建一个 names 数组
         names = Array.new
         #遍历得到每个 repo 的对象
@@ -111,7 +139,7 @@ Network.request(url) { | data |
                     sheet1.row(i + 1)[12] = data["has_pages"]
                     sheet1.row(i + 1)[13] = data["archived"]
                     sheet1.row(i + 1)[14] = data["disabled"]
-                    if data["license"]
+                    if data["license"] 
                         license = data["license"]
                         name = license["name"]
                         sheet1.row(i + 1)[15] = name
@@ -122,6 +150,7 @@ Network.request(url) { | data |
                             puts "excel 已经导出成功, 请查看桌面"
                             #在指定路径下面创建表格，并写book对象
                             book.write "/Users/summerxx/Desktop/rubyExcel/summerxx专属表.xls"
+                            DingDing.send_markdown("excel导出完成", "请查看桌面summerxx, 表导出成功啦")
                         end
                 end
             }
@@ -130,4 +159,4 @@ Network.request(url) { | data |
 }
 
 
-
+    
