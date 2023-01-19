@@ -1,6 +1,5 @@
-# deriveGithubDataToExcel
+# XTDeriveGithubDataToExcel
 导出 Github 里某个用户的下的所有 repo 的详细信息, 并生成 excel
-
 
 系列文章
 [ruby教程之VSCode 运行调试ruby](https://www.jianshu.com/p/0f5a7a8293f5)
@@ -19,8 +18,8 @@
 ![excel 示例](https://upload-images.jianshu.io/upload_images/1506501-369ccf1a5b5b2332.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 安装
-> gem install spreadsheet   
-> gem install cli-ui
+> sudo gem install spreadsheet   
+> sudo gem install cli-ui
 
 ```
 require 'uri'
