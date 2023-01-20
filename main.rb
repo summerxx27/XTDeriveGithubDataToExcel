@@ -188,7 +188,7 @@ Network.request(url) { | data |
                                 puts "excel 已经导出成功, 请查看桌面"
                                 #在指定路径下面创建表格，并写book对象
                                 book.write "/Users/summerxx/Desktop/rubyExcel/summerxx专属表.xls"
-                                DingDing.send_markdown("excel导出完成", "请查看桌面summerxx, #{username}表导出成功啦")
+                                # DingDing.send_markdown("excel导出完成", "请查看桌面summerxx, #{username}表导出成功啦")
                             end
                         }
                     }
