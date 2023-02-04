@@ -4,7 +4,7 @@ require 'net/https'
 require 'json'
 require 'cli/ui'            # 请输入 xxx的功能
 require "spreadsheet/excel" # excel的导出使用
-
+# 单库查询
 # 钉钉机器人
 class DingDing
     # 发送 markdown 消息
@@ -96,7 +96,7 @@ sheet1.row(0)[18] = "activitysum"
 
 # 参照: https://github.com/Shopify/cli-ui
 full_name = CLI::UI::Prompt.ask('请输入您要查询的用户名/库名:')
-puts "您确定要查询的是这个用户吗: #{full_name}"
+puts "您确定要查询的是这个吗: #{full_name}"
 sure = CLI::UI::Prompt.ask('确定请选择 Yes, 否定请选择 No') do |handler|
     handler.option('yes')  { |selection| selection }
     handler.option('no')     { |selection| selection }
